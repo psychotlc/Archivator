@@ -5,4 +5,5 @@ project (Archiver)
 add_executable(Archiver
     main.cpp
     archive.cpp
+    unarchive.cpp
 )
