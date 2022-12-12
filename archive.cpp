@@ -16,13 +16,14 @@ void archive(string file_name){
     unsigned char CountOfRepeatSymbols = 0x81;
     for (int i = 0; i < SizeInByte; i++){
         input.read((char*)&tmp, sizeof(char));
-        if (tmpPrev == tmp) cout << "a";//CountOfRepeatSymbols++;
+        if (tmpPrev == tmp) CountOfRepeatSymbols++;
         else if(CountOfRepeatSymbols == 0x81) output.write((char*)&tmp, sizeof(tmp));
         else {
             output.write((char*)&CountOfRepeatSymbols, sizeof(char));
             output.write((char*)&tmp, sizeof(char));
             CountOfRepeatSymbols = 0x81;
         }
+        tmpPrev = tmp;
     }
     if (CountOfRepeatSymbols != 0x81) {
         output.write((char*)&CountOfRepeatSymbols, sizeof(char));
