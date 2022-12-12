@@ -18,6 +18,7 @@ void unarchive(string file_name){
         input.read((char*)&tmp1, sizeof(char));
         if (tmp1 > 0x81){
             input.read((char*)&tmp2, sizeof(char));
+            i++;
             for (int j = 0; j < (tmp1 - 0x80); j++)output.write((char*)&tmp2, sizeof(char));
             continue;
         }
