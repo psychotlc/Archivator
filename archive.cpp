@@ -15,12 +15,18 @@ void archive(string file_name){
     unsigned char tmpPrev = 0x81;
     unsigned char CountOfRepeatSymbols = 0x81;
     for (int i = 0; i < SizeInByte; i++){
+
         input.read((char*)&tmp, sizeof(char));
+        
+        if (tmpPrev == 0x81){
+            tmpPrev = tmp;
+            continue;
+        }
         if (tmpPrev == tmp) CountOfRepeatSymbols++;
-        else if(CountOfRepeatSymbols == 0x81) output.write((char*)&tmp, sizeof(tmp));
+        else if(CountOfRepeatSymbols == 0x81) output.write((char*)&tmpPrev, sizeof(char));
         else {
             output.write((char*)&CountOfRepeatSymbols, sizeof(char));
-            output.write((char*)&tmp, sizeof(char));
+            output.write((char*)&tmpPrev, sizeof(char));
             CountOfRepeatSymbols = 0x81;
         }
         tmpPrev = tmp;
@@ -29,6 +35,7 @@ void archive(string file_name){
         output.write((char*)&CountOfRepeatSymbols, sizeof(char));
         output.write((char*)&tmp, sizeof(char));
     }
+    else output.write((char*)&tmp, sizeof(char));
 
     input.close();
     output.close();
